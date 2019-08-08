@@ -8,6 +8,7 @@ using System.Linq;
 
 public class Board : MonoBehaviour
 {
+    //enum gamestatus
     public enum GameStatus
     {
         Begin,
@@ -15,18 +16,18 @@ public class Board : MonoBehaviour
         Resume,
         Finished
     }
-    public GameStatus status = GameStatus.Begin;
+    private GameStatus status = GameStatus.Begin;
 
-    public int height;
-    public int width;
-    public GameObject tileNormalPrefab;
-    public GameObject tileObstaclePrefap;
+    [SerializeField] private int height;
+    [SerializeField] private int width;
+    [SerializeField] private GameObject tileNormalPrefab;
+    [SerializeField] private GameObject tileObstaclePrefap;
 
-    public GameObject[] dotPrefaps;
-    public int borderSize;
+    [SerializeField] private GameObject[] dotPrefaps;
+    [SerializeField] private int borderSize;
 
-    public float swapTime = 0.5f;
-    public int fillOffset = 10;
+    [SerializeField] private float swapTime = 0.5f;
+    [SerializeField] private int fillOffset = 10;
 
     int m_scoreMultiplier = 0;
 
@@ -39,11 +40,11 @@ public class Board : MonoBehaviour
     bool m_playerInput = true;
 
     private ParticleManager m_particleManager;
-    private SFX sfx; 
+    private SFX sfx;
 
     //obstacle tile class
-    public StartingTile[] startingTile;
-    public StartingTile[] startingDots;
+    [SerializeField] private StartingTile[] startingTile;
+    [SerializeField] private StartingTile[] startingDots;
 
     [System.Serializable]
     public class StartingTile
@@ -52,6 +53,7 @@ public class Board : MonoBehaviour
         public int x;
         public int y;
         public int z;
+        // [NOT YET] setter getter startingTile
     }
 
     private void Start()
@@ -306,27 +308,27 @@ public class Board : MonoBehaviour
     {
         if (m_playerInput)
         {
-            Dot clickedDots = m_allDots[clickedTile.xIndex, clickedTile.yIndex];
-            Dot targetDots = m_allDots[targetTile.xIndex, targetTile.yIndex];
+            Dot clickedDots = m_allDots[clickedTile.GetXIndex(), clickedTile.GetYIndex()];
+            Dot targetDots = m_allDots[targetTile.GetXIndex(), targetTile.GetYIndex()];
 
             //switch dots
             if (targetDots != null && clickedDots != null)
             {
-                clickedDots.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
-                targetDots.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+                clickedDots.Move(targetTile.GetXIndex(), targetTile.GetYIndex(), swapTime);
+                targetDots.Move(clickedTile.GetXIndex(), clickedTile.GetYIndex(), swapTime);
 
                 yield return new WaitForSeconds(swapTime);
 
-                List<Dot> clickedDotMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-                List<Dot> targetDotMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
+                List<Dot> clickedDotMatches = FindMatchesAt(clickedTile.GetXIndex(), clickedTile.GetYIndex());
+                List<Dot> targetDotMatches = FindMatchesAt(targetTile.GetXIndex(), targetTile.GetYIndex());
 
                 //doesn't matches dot
                 if (targetDotMatches.Count == 0 && clickedDotMatches.Count == 0)
                 {
                     //play sfx
                     sfx.GetSFX(6);
-                    clickedDots.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
-                    targetDots.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+                    clickedDots.Move(clickedTile.GetXIndex(), clickedTile.GetYIndex(), swapTime);
+                    targetDots.Move(targetTile.GetXIndex(), targetTile.GetYIndex(), swapTime);
                 }
                 else
                 {
@@ -345,11 +347,11 @@ public class Board : MonoBehaviour
     //while checking near of dots,it can be drag
     bool IsNextTo(Tile start,Tile end)
     {
-        if(Math.Abs(start.xIndex-end.xIndex)==1&&start.yIndex == end.yIndex)
+        if(Math.Abs(start.GetXIndex()- end.GetXIndex()) ==1&&start.GetYIndex() == end.GetYIndex())
         {
             return true;
         }
-        if (Math.Abs(start.yIndex - end.yIndex) == 1 && start.xIndex == end.xIndex)
+        if (Math.Abs(start.GetYIndex() - end.GetYIndex()) == 1 && start.GetXIndex() == end.GetXIndex())
         {
             return true;
         }
@@ -499,7 +501,7 @@ public class Board : MonoBehaviour
     //default tile to give color transparent
     void HighlistOff(int x, int y)
     {
-        if(m_allTiles[x,y].tileType != TileType.Breakable)
+        if(m_allTiles[x,y].GetTileType() != TileType.Breakable)
         {
             SpriteRenderer spriterender = m_allTiles[x, y].GetComponent<SpriteRenderer>();
             spriterender.color = new Color(spriterender.color.r, spriterender.color.g, spriterender.color.b, 0);
@@ -510,7 +512,7 @@ public class Board : MonoBehaviour
     //change color while highlight 3 matches
     void HighlistTileOn(int x, int y,Color col)
     {
-        if (m_allTiles[x, y].tileType != TileType.Breakable)
+        if (m_allTiles[x, y].GetTileType() != TileType.Breakable)
         {
             SpriteRenderer spriterender = m_allTiles[x, y].GetComponent<SpriteRenderer>();
             spriterender.color = col;
@@ -604,11 +606,11 @@ public class Board : MonoBehaviour
     {
         Tile tileToBreak = m_allTiles[x, y];
 
-        if (tileToBreak != null&& tileToBreak.tileType == TileType.Breakable)
+        if (tileToBreak != null&& tileToBreak.GetTileType() == TileType.Breakable)
         {
             if (m_particleManager != null)
             {
-                m_particleManager.BreakDotFxAT(tileToBreak.breakAbleValue, x, y, 0);
+                m_particleManager.BreakDotFxAT(tileToBreak.GetBreakAbleValue(), x, y, 0);
             }
             tileToBreak.BreakTile();
         }
@@ -862,5 +864,13 @@ public class Board : MonoBehaviour
        
     }
 
-  
+    public GameStatus GetGameStatus()
+    {
+        return status;
+    }
+    
+    public void SetGameStatus(GameStatus value)
+    {
+        status = value;
+    }
 }

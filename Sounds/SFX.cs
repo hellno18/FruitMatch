@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SFX : MonoBehaviour
 {
     
-    public AudioClip[] sfxGroup;
+    [SerializeField] private AudioClip[] sfxGroup;
     AudioSource m_audio;
 
     // Start is called before the first frame update
@@ -15,7 +15,6 @@ public class SFX : MonoBehaviour
         //get component
         m_audio = GetComponent<AudioSource>();
     }
-
 
 
     public void GetSFX(int sfx)

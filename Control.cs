@@ -27,11 +27,13 @@ public class Control : MonoBehaviour
         else
         {
             bgm.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("music");
+            // sound on
             if (PlayerPrefs.GetFloat("music") == 1f)
             {
                 soundOn.SetActive(true);
                 soundOff.SetActive(false);
             }
+            // sound off
             if (PlayerPrefs.GetFloat("music") == 0f)
             {
                 soundOn.SetActive(false);

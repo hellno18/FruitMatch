@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class BGM : MonoBehaviour
 {
     static public BGM instance;
-    public AudioClip[] audioClip;
+    [SerializeField] private AudioClip[] audioClip;
     AudioSource m_audio;
 
     // Start is called before the first frame update
@@ -30,9 +30,6 @@ public class BGM : MonoBehaviour
         {
             Destroy(gameObject);
         }
-       
-          
-       
        
     }
 
@@ -81,6 +78,9 @@ public class BGM : MonoBehaviour
         
     }
 
-
-    
+    //getter audioclip
+    public AudioClip[] GetAudioClip()
+    {
+        return audioClip;
+    }
 }

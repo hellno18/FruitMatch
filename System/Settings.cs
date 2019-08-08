@@ -30,7 +30,7 @@ public class Settings : Singleton<Settings>
     public void SettingButtonClicked()
     {
         settingBoardButton.SetActive(true);
-        board.status = Board.GameStatus.Pause;
+        board.SetGameStatus(Board.GameStatus.Pause);
         //play sfx
         sfx.GetSFX(1);
         anim.SetBool("isOpen", true);
@@ -68,14 +68,14 @@ public class Settings : Singleton<Settings>
     {
         bgm.GetComponent<AudioSource>().Stop();
         //change bgm
-        bgm.GetComponent<AudioSource>().clip = bgm.audioClip[audio];
+        bgm.GetComponent<AudioSource>().clip = bgm.GetAudioClip()[audio];
         bgm.GetComponent<AudioSource>().volume = bgm.GetComponent<AudioSource>().volume;
         bgm.GetComponent<AudioSource>().Play();
     }
 
     IEnumerator SettingRoutine()
     {
-        board.status = Board.GameStatus.Resume;
+        board.SetGameStatus(Board.GameStatus.Resume);
         //play sfx
         sfx.GetSFX(1);
 

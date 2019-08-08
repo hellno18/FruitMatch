@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ParticleManager : MonoBehaviour
 {
-    public GameObject clearFXPrefap;
-    public GameObject breakFXPrefap;
+    [SerializeField] private GameObject clearFXPrefap;
+    [SerializeField] private GameObject breakFXPrefap;
 
     public void ClearDotFxAt(int x, int y, int z = 0)
     {
@@ -37,7 +37,5 @@ public class ParticleManager : MonoBehaviour
             }
         }
         
-
-      
     }
 }

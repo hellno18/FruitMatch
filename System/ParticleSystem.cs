@@ -5,8 +5,8 @@ using UnityEngine;
 public class ParticleSystem : MonoBehaviour
 {
 
-    public ParticleSystem[] allParticles;
-    public float lifetime = 1f;
+    [SerializeField] private ParticleSystem[] allParticles;
+    [SerializeField] private float lifetime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -14,12 +14,6 @@ public class ParticleSystem : MonoBehaviour
         allParticles = GetComponentsInChildren<ParticleSystem>();
         Destroy(gameObject, lifetime);
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
     }
 
     public void Play()

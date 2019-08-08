@@ -9,10 +9,10 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(MaskableGraphic))]
 public class ScreenFader : MonoBehaviour
 {
-    public float solid = 1f;
-    public float clear = 0f;
-    public float delay = 0f;
-    public float timeToFade = 1f;
+    [SerializeField] private float solid = 1f;
+    [SerializeField] private float clear = 0f;
+    [SerializeField] private float delay = 0f;
+    [SerializeField] private float timeToFade = 1f;
 
     MaskableGraphic m_graphic;
 

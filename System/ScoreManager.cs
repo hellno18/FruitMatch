@@ -11,10 +11,10 @@ public class ScoreManager : Singleton<ScoreManager>
     int m_icrement = 5;
 
 
-    public Text timeText;
-    public Text scoreText;
-    public float countTime = 1f;
-    public float timeLimit = 60f;
+    [SerializeField] private Text timeText;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private float countTime = 1f;
+    [SerializeField] private float timeLimit = 60f;
     Board board;
     BGM bgm;
     SFX sfx;
@@ -36,7 +36,7 @@ public class ScoreManager : Singleton<ScoreManager>
         UpdateScore(m_currentScore);
         //update score result
         scoreTotal.SetText("{0}", m_currentScore);
-        if (board.status == Board.GameStatus.Begin|| board.status == Board.GameStatus.Resume)
+        if (board.GetGameStatus() == Board.GameStatus.Begin|| board.GetGameStatus() == Board.GameStatus.Resume)
         {
             TimeCountDown();
         }
@@ -52,7 +52,7 @@ public class ScoreManager : Singleton<ScoreManager>
         {
             settingButton.GetComponent<Button>().interactable = false;
             timeText.text = "0";  
-            board.status = Board.GameStatus.Finished;
+            board.SetGameStatus(Board.GameStatus.Finished);
             //play sfx
             sfx.GetSFX(5);
             //change bgm

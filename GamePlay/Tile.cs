@@ -11,16 +11,16 @@ public enum TileType
 [RequireComponent(typeof(SpriteRenderer))]
 public class Tile : MonoBehaviour
 {
-    public int xIndex;
-    public int yIndex;
+    private int xIndex;
+    private int yIndex;
     Board m_board;
-
-    public TileType tileType = TileType.Normal;
+     
     SpriteRenderer m_spriterender;
 
-    public int breakAbleValue = 0;
-    public Sprite[] breakableSprite;
-    public Color normalColor;
+    [SerializeField] private TileType tileType = TileType.Normal;
+    [SerializeField] int breakAbleValue = 0;
+    [SerializeField] private Sprite[] breakableSprite;
+    [SerializeField] private Color normalColor;
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,7 +45,7 @@ public class Tile : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (m_board.status == Board.GameStatus.Begin || m_board.status == Board.GameStatus.Resume)
+        if (m_board.GetGameStatus() == Board.GameStatus.Begin || m_board.GetGameStatus() == Board.GameStatus.Resume)
         {
             if (m_board != null)
             {
@@ -56,7 +56,7 @@ public class Tile : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        if (m_board.status == Board.GameStatus.Begin || m_board.status == Board.GameStatus.Resume)
+        if (m_board.GetGameStatus() == Board.GameStatus.Begin || m_board.GetGameStatus() == Board.GameStatus.Resume)
         {
             if (m_board != null)
             {
@@ -67,7 +67,7 @@ public class Tile : MonoBehaviour
     }
     void OnMouseUp()
     {
-        if (m_board.status == Board.GameStatus.Begin || m_board.status == Board.GameStatus.Resume)
+        if (m_board.GetGameStatus() == Board.GameStatus.Begin || m_board.GetGameStatus() == Board.GameStatus.Resume)
         {
             if (m_board != null)
             {
@@ -112,5 +112,35 @@ public class Tile : MonoBehaviour
         {
             ScoreManager.Instance.addScore(30);
         }
+    }
+
+    //getter tileType
+    public TileType GetTileType()
+    {
+        return tileType;
+    }
+
+    //setter tileType
+    public void SetTileType(TileType value)
+    {
+        tileType = value;
+    }
+
+    //getter BreakAbleValue
+    public int GetBreakAbleValue()
+    {
+        return breakAbleValue;
+    }
+
+    //getter xIndex
+    public int GetXIndex()
+    {
+        return xIndex;
+    }
+
+    //getter yIndex
+    public int GetYIndex()
+    {
+        return yIndex;
     }
 }

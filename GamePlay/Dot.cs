@@ -37,19 +37,21 @@ public class Dot : MonoBehaviour
 
 
 
-
+    //initialize 初期化する
     public void Init(Board board)
     {
         m_board = board;
         
     }
 
+    //Cordinate 初期化する
     public void SetCord(int x, int y)
     {
         xIndex = x;
         yIndex = y;
     }
 
+    //Move dot 初期化する
     public void Move(int x,int y,float moveTime)
     {
         if (!m_isMoving)
@@ -59,6 +61,7 @@ public class Dot : MonoBehaviour
      
     }
 
+    //Dot will Change position while dragged
     IEnumerator MoveRoutine(Vector3 destination, float moveTime)
     {
         Vector3 startPosition = transform.position;
@@ -81,6 +84,7 @@ public class Dot : MonoBehaviour
             timeElapsed += Time.deltaTime;
             float time = Mathf.Clamp(timeElapsed / moveTime,0f,1f);
 
+            //if failed to change position
             //give natural movement (interpolation)
             switch (interpolation)
             {
@@ -110,7 +114,7 @@ public class Dot : MonoBehaviour
         m_isMoving = false;
     }
 
-
+    //Add score  
     public void ScorePoint()
     {
         if (ScoreManager.Instance != null)
